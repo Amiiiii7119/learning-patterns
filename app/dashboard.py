@@ -1,8 +1,9 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import numpy as np
+
 
 # ================= PAGE CONFIG =================
 st.set_page_config(
@@ -741,42 +742,71 @@ with tab2:
             with col_card:
                 # Render card HTML
                 card_html = f"""
-                <div class="glow-card" style="margin-bottom: 20px;">
-                    <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 20px;">
-                        <div>
-                            <h3 style="margin: 0 0 5px 0; color: white;">{student['full_name']}</h3>
-                            <p style="color: #94a3b8; margin: 0; font-size: 14px;">ID: {student['student_id']} • {student['persona']}</p>
-                        </div>
-                        <div style="background: {student_risk_color}20; color: {student_risk_color}; 
-                                 padding: 6px 15px; border-radius: 20px; font-weight: 600; border: 1px solid {student_risk_color}40;">
-                            {student['risk']}
-                        </div>
-                    </div>
-                    
-                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 20px;">
-                        <div style="text-align: center;">
-                            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 5px;">FINAL GRADE</div>
-                            <div style="font-size: 28px; font-weight: bold; color: white;">{student['G3']}</div>
-                            <div style="font-size: 11px; color: #94a3b8;">/20</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 5px;">ABSENCES</div>
-                            <div style="font-size: 28px; font-weight: bold; color: {absence_color};">{student['absences']}</div>
-                            <div style="font-size: 11px; color: #94a3b8;">days</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 5px;">FAILURES</div>
-                            <div style="font-size: 28px; font-weight: bold; color: {failure_color};">{student['failures']}</div>
-                            <div style="font-size: 11px; color: #94a3b8;">previous</div>
-                        </div>
-                        <div style="text-align: center;">
-                            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 5px;">IMPROVEMENT</div>
-                            <div style="font-size: 28px; font-weight: bold; color: {improvement_color};">{student['improvement']:+d}</div>
-                            <div style="font-size: 11px; color: #94a3b8;">G3 vs G1</div>
-                        </div>
-                    </div>
-                </div>
-                """
+<div class="glow-card" style="margin-bottom: 20px;">
+
+    <!-- Header -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+            <h3 style="margin: 0 0 5px 0; color: white;">{student['full_name']}</h3>
+            <p style="color: #94a3b8; margin: 0; font-size: 14px;">
+                ID: {student['student_id']} • {student['persona']}
+            </p>
+        </div>
+
+        <div style="
+            background: {student_risk_color}20;
+            color: {student_risk_color};
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            border: 1px solid {student_risk_color}40;
+            white-space: nowrap;
+        ">
+            {student['risk']}
+        </div>
+    </div>
+
+    <!-- Metrics Grid -->
+    <div style="
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 20px;
+        margin-bottom: 10px;
+    ">
+
+        <div style="text-align: center;">
+            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 4px;">FINAL GRADE</div>
+            <div style="font-size: 28px; font-weight: 700; color: white;">{student['G3']}</div>
+            <div style="font-size: 11px; color: #94a3b8;">/20</div>
+        </div>
+
+        <div style="text-align: center;">
+            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 4px;">ABSENCES</div>
+            <div style="font-size: 28px; font-weight: 700; color: {absence_color};">
+                {student['absences']}
+            </div>
+            <div style="font-size: 11px; color: #94a3b8;">days</div>
+        </div>
+
+        <div style="text-align: center;">
+            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 4px;">FAILURES</div>
+            <div style="font-size: 28px; font-weight: 700; color: {failure_color};">
+                {student['failures']}
+            </div>
+            <div style="font-size: 11px; color: #94a3b8;">previous</div>
+        </div>
+
+        <div style="text-align: center;">
+            <div style="color: #94a3b8; font-size: 12px; margin-bottom: 4px;">IMPROVEMENT</div>
+            <div style="font-size: 28px; font-weight: 700; color: {improvement_color};">
+                {student['improvement']:+d}
+            </div>
+            <div style="font-size: 11px; color: #94a3b8;">G3 vs G1</div>
+        </div>
+
+    </div>
+</div>
+"""
                 st.markdown(card_html, unsafe_allow_html=True)
             
             with col_actions:
